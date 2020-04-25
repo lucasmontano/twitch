@@ -1,11 +1,11 @@
-import express from "express";
+import express from 'express';
 
-import "./bootstrap";
+import './bootstrap';
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.json("Hello World");
+app.get('/', (req, res) => {
+  res.json('Hello World');
 });
 
 app.use(express.json());
