@@ -1,14 +1,14 @@
 import express from 'express';
+import { config } from 'dotenv';
+import { resolve } from 'path';
 
-import './bootstrap';
+config({ path: resolve(__dirname, '..', '.env') });
 
-const app = express();
+import App from './App';
 
-app.get('/', (req, res) => {
-  res.json('Hello World');
-});
+const { getApp } = new App(express);
+const { APP_PORT } = process.env;
 
-app.use(express.json());
-
-app.listen(process.env.APP_PORT);
-console.log(`🚀  Server ready at ${process.env.APP_URL}`);
+getApp.listen(APP_PORT, () =>
+  console.log(`Server running at port ${APP_PORT}`)
+);
