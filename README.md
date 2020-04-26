@@ -4,9 +4,75 @@ A simple quickstart in Node with Typescript
 
 ## Sumary
 
+- [How to Setup](#how-to-setup)
 - [Environment Variables](#environment-variables)
 - [Scripts](#scripts)
 - [Code Linters](#code-linters)
+
+## How to Setup
+
+first clone or download the repository
+
+```
+git clone https://github.com/lucasmontano/twitch.git
+```
+
+After that you can install the dependencies by executing the following command in the root folder of the project
+
+```
+npm install
+```
+
+or with yarn
+
+```
+yarn
+```
+
+Now you have 2 options to start the project:
+
+1. Start the apllication in development mode
+2. Generate a production build
+
+**Development Mode**
+
+Run the following script to start the aplicattion on development mode with a watcher for file changes
+
+```
+npm run dev
+```
+
+or with yarn
+
+```
+yarn dev
+```
+
+**Production Mode**
+
+First generate a build with the following command
+
+```
+npm run build
+```
+
+or with yarn
+
+```
+yarn build
+```
+
+Now to start the compiled aplicattion, run this command
+
+```
+npm run start
+```
+
+or with yarn
+
+```
+yarn start
+```
 
 ## Environment Variables
 
