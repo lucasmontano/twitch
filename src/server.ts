@@ -13,13 +13,11 @@ setInterval(function () {
     .then(function (response) {
       // handle success
       response.data.chatters.viewers.forEach(viewer => {
-        let point = 0
-        if (viewerwersPoint.has(viewer)) {
-          point = viewerwersPoint.get(viewer)
-        }
-        point++
-        viewerwersPoint.set(viewer, point)
+
+        let point = viewerwersPoint.get(viewer) ?? 0;
+        viewerwersPoint.set(viewer, ++point);
         console.log(`${viewer} have ${point} points`);
+        
       });
     })
     .catch(function (error) {
@@ -32,14 +30,26 @@ setInterval(function () {
 }, 60 * 1000);
 
 app.get('/', (req, res) => {
-  res.json(
-    Array.from(
-      viewerwersPoint.entries()
-    ).reduce((o, [key, value]) => {
-      o[key] = value;
-      return o;
-    }, {})
-  );
+
+  let viewers = Array.from(viewerwersPoint.entries()).map(viewer => {
+    return {
+      name: viewer[0],
+      points: viewer[1]
+    }
+  });
+
+  let top10 = viewers.sort((a, b) => a.points > b.points ? 1 : -1).slice(0, 10);
+
+  let response = `All viewers formatted in { name, points } to make it easy to read
+  \n
+  ${JSON.stringify(viewers)}
+  \n\n
+  Sort viewers by point and get top 10
+  \n
+  ${JSON.stringify(top10)}
+  `
+  res.write(response);
+
 });
 
 app.use(express.json());
