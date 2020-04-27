@@ -3,7 +3,11 @@
     "es6": true,
     "node": true
   },
-  "extends": ["airbnb-base", "prettier/@typescript-eslint"],
+  "extends": [
+    "airbnb-base",
+    "prettier/@typescript-eslint",
+    "eslint:recommended"
+  ],
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
