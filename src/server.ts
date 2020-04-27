@@ -27,7 +27,7 @@ setInterval(function () {
     .then(function () {
       // always executed
     });
-}, 5 * 1000);
+}, 60 * 1000);
 
 app.get('/', (req, res) => {
 
