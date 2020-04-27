@@ -32,7 +32,14 @@ setInterval(function () {
 }, 60 * 1000);
 
 app.get('/', (req, res) => {
-  res.json('Hello Twitch! :)');
+  res.json(
+    Array.from(
+      viewerwersPoint.entries()
+    ).reduce((o, [key, value]) => {
+      o[key] = value;
+      return o;
+    }, {})
+  );
 });
 
 app.use(express.json());
