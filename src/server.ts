@@ -37,5 +37,5 @@ app.get('/', (req, res) => {
 
 app.use(express.json());
 
-app.listen(process.env.APP_PORT);
-console.log(`🚀  Server ready at ${process.env.APP_URL}`);
+app.listen(process.env.PORT);
+console.log(`🚀  Server ready at ${process.env.URL}`);
