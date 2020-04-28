@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
     }
   });
   let top10 = viewers.sort((a, b) => a.points > b.points ? 1 : -1).slice(0, 10);
-  res.json(top10);
+  return res.json(top10);
 });
 
 app.use(express.json());
