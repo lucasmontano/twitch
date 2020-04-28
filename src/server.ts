@@ -17,7 +17,6 @@ setInterval(function () {
         let point = viewerwersPoint.get(viewer) ?? 0;
         viewerwersPoint.set(viewer, ++point);
         console.log(`${viewer} have ${point} points`);
-        
       });
     })
     .catch(function (error) {
@@ -30,26 +29,14 @@ setInterval(function () {
 }, 60 * 1000);
 
 app.get('/', (req, res) => {
-
   let viewers = Array.from(viewerwersPoint.entries()).map(viewer => {
     return {
       name: viewer[0],
       points: viewer[1]
     }
   });
-
   let top10 = viewers.sort((a, b) => a.points > b.points ? 1 : -1).slice(0, 10);
-
-  let response = `All viewers formatted in { name, points } to make it easy to read
-  \n
-  ${JSON.stringify(viewers)}
-  \n\n
-  Sort viewers by point and get top 10
-  \n
-  ${JSON.stringify(top10)}
-  `
-  res.write(response);
-
+  res.json(top10);
 });
 
 app.use(express.json());
