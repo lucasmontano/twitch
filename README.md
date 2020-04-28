@@ -99,7 +99,7 @@ yarn test
 
 **Application Options**
 
-- `APP_PORT`: Set the port of the application
+- `PORT`: Set the port of the application
 
 ## Scripts
 
