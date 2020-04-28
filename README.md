@@ -5,6 +5,7 @@ A simple quickstart in Node with Typescript
 ## Sumary
 
 - [How to Setup](#how-to-setup)
+- [Testing](#testing)
 - [Environment Variables](#environment-variables)
 - [Scripts](#scripts)
 - [Code Linters](#code-linters)
@@ -74,6 +75,22 @@ or with yarn
 yarn start
 ```
 
+## Testing
+
+**Running all tests**
+
+Depending of which package manager you're using for development, you can run with npm
+
+```
+npm run test
+```
+
+or with yarn
+
+```
+yarn test
+```
+
 ## Environment Variables
 
 **Node Environment**
@@ -89,6 +106,7 @@ yarn start
 - `dev`: Run the application in **development** mode
 - `build`: Compile the Typescript using the **tsc**
 - `start`: Start the previous compiled aplicattion by the **build** script
+- `test`: Run all tests
 
 ## Code Linters
 
