@@ -1,4 +1,0 @@
- 
-{
-    "src/**/*.{ts,js}": ["eslint --fix"]
-}
