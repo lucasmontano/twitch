@@ -17,12 +17,13 @@
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "prettier/recommended"],
-  "rules": {
-    "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
+  "plugins": ["@typescript-eslint", "prettier"],
+  "rules": {},
+  "settings": {
     "import/parsers": {
       "@typescript-eslint/parser": [".ts", ".tsx"]
     },
+    "import/extensions": [".js", ".ts"],
     "import/resolver": {
       "node": {
         "extensions": [".js", ".jsx", ".ts", ".tsx"]
