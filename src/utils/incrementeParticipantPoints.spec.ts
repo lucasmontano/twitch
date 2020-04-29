@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import { MongoMemoryServer } from 'mongodb-memory-server';
-import { MongoClient } from 'mongodb';
+import DatabaseClient from '../database';
 import { Participant } from '../types/participant';
 import incrementParticipantPoints from './incrementParticipantPoints';
 
@@ -10,14 +10,15 @@ const mongod = new MongoMemoryServer();
 const getParticipant = jest.fn().mockReturnValue({ name: 'viewer', points: 2 });
 
 describe('Testing incrementParticipantPoints function', () => {
-  let client: MongoClient;
+  let client: DatabaseClient;
 
   beforeAll(async () => {
-    const uri = await mongod.getUri();
+    const url = await mongod.getUri();
+    const database = await mongod.getDbName();
 
-    client = new MongoClient(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+    client = new DatabaseClient({
+      url,
+      database,
     });
   });
 
@@ -27,12 +28,11 @@ describe('Testing incrementParticipantPoints function', () => {
   });
 
   it('should increment participant points by 1', async () => {
-    const database = await mongod.getDbName();
     await client.connect();
 
-    const participantsCollection = client
-      .db(database)
-      .collection<Participant>('participants');
+    const participantsCollection = client.getCollection<Participant>(
+      'participants'
+    );
 
     const participant = getParticipant();
     await participantsCollection.insertOne(participant);
