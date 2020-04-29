@@ -9,7 +9,7 @@ const mongod = new MongoMemoryServer();
 
 const getParticipant = jest.fn().mockReturnValue({ name: 'viewer', points: 2 });
 
-describe('Testing application', () => {
+describe('Testing fetchTopParticipant function', () => {
   let client: MongoClient;
 
   beforeAll(async () => {
