@@ -1,0 +1,40 @@
+name: Template workflow
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: node:12.16.1-stretch
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Tests
+        env:
+          NODE_ENV: 'test'
+        run: |
+          yarn
+          yarn test
+
+  lint:
+    runs-on: ubuntu-latest
+    container:
+      image: node:12.16.1-stretch
+    steps:
+      - uses: actions/checkout@v1
+      - name: Lint
+        run: |
+          yarn
+          yarn lint
+
+  audit:
+    runs-on: ubuntu-latest
+    container:
+      image: node:12.16.1-stretch
+    steps:
+      - uses: actions/checkout@v1
+      - name: Audit
+        run: |
+          npm install
+          npm audit
