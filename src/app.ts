@@ -1,17 +1,18 @@
 import express from 'express';
-
+import mongodb, { Collection } from 'mongodb';
 import ChatterService from './services/ChatterService';
 
 const app = express();
 app.use(express.json());
 
-let topParticipants = new Array();
+let topParticipants = [];
 
-const MongoClient = require('mongodb').MongoClient;
+const MongoClient = mongodb.MongoClient;
 const client = new MongoClient(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+
 client.connect((err) => {
   if (err) throw err;
 
@@ -33,9 +34,9 @@ client.connect((err) => {
   }, 60 * 1000);
 });
 
-function fetchTopParticipants(participantsCollection: any) {
-  participantsCollection
-    .find()
+function fetchTopParticipants(participantsCollection: Collection): void {
+  return participantsCollection
+    .find() // TODO: apply projection to filter out _id
     .sort({ points: -1 })
     .limit(10)
     .toArray((err, document) => {
@@ -46,11 +47,11 @@ function fetchTopParticipants(participantsCollection: any) {
     });
 }
 
-async function incrementParticipantPoints(
-  participantsCollection: any,
+function incrementParticipantPoints(
+  participantsCollection: Collection,
   viewer: string
-) {
-  await participantsCollection
+): Promise<void> {
+  return participantsCollection
     .updateOne({ name: viewer }, { $inc: { points: 1 } })
     .then((result) => {
       if (!result.modifiedCount) {
