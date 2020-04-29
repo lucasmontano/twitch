@@ -2,5 +2,6 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "outDir": "./build"
-  }
+  },
+  "exclude": [ "node_modules", "**/*.spec.ts" ]
 }
