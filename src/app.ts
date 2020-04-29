@@ -1,6 +1,7 @@
 import express from 'express';
 import mongodb, { Collection } from 'mongodb';
 import ChatterService from './services/ChatterService';
+import { OptionsJson } from 'body-parser';
 
 const app = express();
 app.use(express.json());
@@ -23,13 +24,13 @@ client.connect((err) => {
     try {
       const viewers = await ChatterService.getViewers();
 
-      viewers.forEach(async (viewer) => {
+      for (const viewer of viewers) {
         await incrementParticipantPoints(participantsCollection, viewer);
-      });
+      }
 
       fetchTopParticipants(participantsCollection);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }, 60 * 1000);
 });
@@ -47,25 +48,24 @@ function fetchTopParticipants(participantsCollection: Collection): void {
     });
 }
 
-function incrementParticipantPoints(
+async function incrementParticipantPoints(
   participantsCollection: Collection,
-  viewer: string
+  viewer: string,
 ): Promise<void> {
-  return participantsCollection
-    .updateOne({ name: viewer }, { $inc: { points: 1 } })
-    .then((result) => {
-      if (!result.modifiedCount) {
-        participantsCollection.insertOne({
-          name: viewer,
-          points: 1,
-        });
-      }
-    })
-    .catch((err) => console.error(`Failed to add review: ${err}`));
+  try {
+    const result = await participantsCollection
+      .updateOne({ name: viewer }, { $inc: { points: 1 } });
+    if (!result.modifiedCount) {
+      await participantsCollection.insertOne({
+        name: viewer,
+        points: 1,
+      });
+    }
+  } catch (err) {
+    return console.error(`Failed to add review: ${err}`);
+  }
 }
 
-app.get('/', (req, res) => {
-  return res.json(topParticipants);
-});
+app.get('/', (req, res) => res.json(topParticipants as OptionsJson));
 
 export default app;

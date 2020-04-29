@@ -19,12 +19,13 @@ interface IResponse {
 }
 
 class ChatterService {
+  response;
   public async getViewers(): Promise<Participants> {
-    const response = await axios.get<IResponse>(
+    this.response = await axios.get<IResponse>(
       'https://tmi.twitch.tv/group/user/lucas_montano/chatters'
     );
 
-    const { viewers } = response.data.chatters;
+    const { viewers } = this.response.data.chatters;
 
     return viewers;
   }
