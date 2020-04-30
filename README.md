@@ -133,6 +133,7 @@ yarn test
 - `build`: Compile the Typescript using the **tsc**
 - `start`: Start the previous compiled aplicattion by the **build** script
 - `test`: Run all tests
+- `lint`: Run ESLint
 
 ## Code Linters
 
