@@ -8,32 +8,32 @@ jobs:
     container:
       image: node:12.16.1-stretch
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Tests
         env:
           NODE_ENV: 'test'
         run: |
-          yarn
-          yarn test
+          npm i
+          npm test
 
   lint:
     runs-on: ubuntu-latest
     container:
       image: node:12.16.1-stretch
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Lint
         run: |
-          yarn
-          yarn lint
+          npm i
+          npm run lint
 
   audit:
     runs-on: ubuntu-latest
     container:
       image: node:12.16.1-stretch
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Audit
         run: |
           npm install
