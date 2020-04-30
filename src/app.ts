@@ -29,7 +29,7 @@ setInterval(async () => {
   try {
     const viewers = await ChatterService.getViewers();
     const participantsCollection = client.getCollection<Participant>(
-      'participants'
+      'participants',
     );
 
     viewers.forEach(async (viewer) => {
@@ -50,7 +50,7 @@ setInterval(async () => {
 
 app.get('/', async (req, res) => {
   const participantsCollection = client.getCollection<Participant>(
-    'participants'
+    'participants',
   );
   const topParticipants = await fetchTopParticipants(participantsCollection);
 
