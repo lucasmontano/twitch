@@ -6,7 +6,7 @@
     "build": "tsc",
     "start": "node build/server.js",
     "test": "jest",
-    "lint": "eslint 'src/**/*.ts'"
+    "lint": "eslint src/**/*.ts"
   },
   "devDependencies": {
     "@types/express": "^4.17.6",

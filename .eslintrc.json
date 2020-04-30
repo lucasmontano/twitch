@@ -8,6 +8,7 @@
     "airbnb-base",
     "prettier/@typescript-eslint",
     "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "prettier"
   ],
   "globals": {
@@ -29,7 +30,8 @@
         "js": "never"
       }
     ],
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "class-methods-use-this": "warn"
   },
   "settings": {
     "import/parsers": {
