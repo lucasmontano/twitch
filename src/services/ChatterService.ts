@@ -27,6 +27,10 @@ interface BotData {
 }
 
 class ChatterService {
+  constructor() {
+    this.bots = new Set();
+  }
+
   // eslint-disable-next-line class-methods-use-this
   public async getViewers(): Promise<Participants> {
     const response = await axios.get<IResponse>(
@@ -34,14 +38,20 @@ class ChatterService {
     );
 
     const { viewers } = response.data.chatters;
-
+    
     return this.removeBots(viewers);
   }
 
   private async removeBots(viewers: Participants): Promise<Participants> {
-    const response = await axios.get<BotData>('https://api.twitchinsights.net/v1/bots/online');
-    const botNames = new Set(response.data.bots.map((bot) => bot[0]));
-    const filteredViewers = viewers.filter((viewer) => !botNames.has(viewer));
+    if (!this.bots.size) {
+      const response = await axios.get<BotData>('https://api.twitchinsights.net/v1/bots/online');
+      response.data.bots.map((bot) => {
+        this.bots.add(bot[0]);
+      });
+    }
+    
+    const filteredViewers: Participants = viewers.filter((viewer) => !this.bots.has(viewer));
+    
     return filteredViewers;
   }
 }
