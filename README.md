@@ -108,7 +108,7 @@ you can see more about it [here](https://www.conventionalcommits.org/en/v1.0.0/)
 
 **Scope**
 
-Scope indicates what is your changes, for an example, for an example, lets use the commit of this changes on readme.
+Scope indicates what is your changes, for an example, lets use the commit of this changes on readme.
 
 ```
 docs: added contributions guidelines
