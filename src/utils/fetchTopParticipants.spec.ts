@@ -1,5 +1,5 @@
-/* eslint-disable */
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { Participant } from '../types/participant';
 import DatabaseClient from '../database';

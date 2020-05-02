@@ -3,7 +3,7 @@ import DatabaseClient from "../database"
 import { Participant } from "../types/participant"
 
 class ParticipantRepository {
-  private participantCollection! : Collection<Participant>
+  public participantCollection! : Collection<Participant>
 
   public init(client: DatabaseClient): void{
     this.participantCollection = client.getCollection('participants')
