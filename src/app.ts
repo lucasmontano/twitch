@@ -1,13 +1,7 @@
 import express from 'express';
 import DatabaseClient from './database';
-
-import ChatterService from './services/ChatterService';
-
-import fetchTopParticipants from './utils/fetchTopParticipants';
-import incrementParticipantPoints from './utils/incrementParticipantPoints';
-
-import { Participant } from './types/participant';
 import PointsClock from './PointsClock';
+import ParticipantRepository from './repository/ParticipantRepository';
 
 const app = express();
 app.use(express.json());
@@ -26,15 +20,13 @@ client.connect((err) => {
   }
 });
 
-const pointsClock = new PointsClock(60 * 1000,client)
+ParticipantRepository.init(client)
+
+const pointsClock = new PointsClock(60 * 1000)
 pointsClock.run()
 
 app.get('/', async (req, res) => {
-  const participantsCollection = client.getCollection<Participant>(
-    'participants',
-  );
-  const topParticipants = await fetchTopParticipants(participantsCollection);
-
+  const topParticipants = await ParticipantRepository.fetchTopParticipants()
   return res.json(topParticipants);
 });
 
