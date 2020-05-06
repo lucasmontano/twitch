@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import DatabaseClient from './database';
 
 import ChatterService from './services/ChatterService';
@@ -48,7 +49,7 @@ setInterval(async () => {
   }
 }, 60 * 1000);
 
-app.get('/', async (req, res) => {
+app.get('/', cors(), async (req, res) => {
   const participantsCollection = client.getCollection<Participant>(
     'participants',
   );
