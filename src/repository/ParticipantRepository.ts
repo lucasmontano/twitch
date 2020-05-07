@@ -1,4 +1,4 @@
-import { Collection, FilterQuery, ObjectId } from "mongodb"
+import { Collection, FilterQuery, ObjectId, InsertOneWriteOpResult, WithId, UpdateWriteOpResult } from "mongodb"
 import DatabaseClient from "../database"
 import { Participant } from "../types/participant"
 
@@ -13,7 +13,7 @@ class ParticipantRepository {
     return this.participantCollection.findOne(filter)
   }
 
-  public async insertOne(docs: Pick<Participant, "name" | "points"> & {_id?: ObjectId; }){
+  public async insertOne(docs: Pick<Participant, "name" | "points"> & {_id?: ObjectId; }): Promise<InsertOneWriteOpResult<WithId<Participant>>>{
     return this.participantCollection.insertOne(docs)
   }
 
@@ -25,12 +25,13 @@ class ParticipantRepository {
       .toArray();
   }
 
-  public async incrementParticipantPoints(name: string): Promise<any> {  
-    return this.participantCollection.updateOne({ name }, {
+  public async incrementParticipantPoints(name: string): Promise<UpdateWriteOpResult> {  
+    const a = this.participantCollection.updateOne({ name }, {
       $inc: {
         points: 1,
       },
     });
+    return a 
   }
 } 
 

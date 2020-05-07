@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, Collection } from 'mongodb';
 
 import { ConnectionOptions } from '../types/database';
 
@@ -14,7 +14,7 @@ class DatabaseClient extends MongoClient {
     this.database = database;
   }
 
-  public getCollection<T>(collection: string) {
+  public getCollection<T>(collection: string): Collection<T> {
     return this.db(this.database).collection<T>(collection);
   }
 }

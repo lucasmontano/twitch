@@ -6,12 +6,12 @@ import { Participant } from '../types/participant';
 
 const mongod = new MongoMemoryServer();
 
-async function asyncForEach(array, callback) {
-  // eslint-disable-next-line no-plusplus
-  for (let index = 0; index < array.length; index++) {
-    // eslint-disable-next-line no-await-in-loop
-    await callback(array[index], index, array);
+async function asyncForEach(array: Array<string>, callback): Promise<void> {
+  const results = [];
+  for (let index = 0; index < array.length; index += 1) {
+    results.push(callback(array[index], index, array));
   }
+  await Promise.all(results);
 }
 
 describe("Participant Repository", () => {
