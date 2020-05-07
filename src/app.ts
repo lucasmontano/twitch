@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import DatabaseClient from './database';
 import PointsClock from './PointsClock';
 import ParticipantRepository from './repository/ParticipantRepository';
@@ -25,8 +26,9 @@ ParticipantRepository.init(client)
 const pointsClock = new PointsClock( 1000)
 pointsClock.run()
 
-app.get('/', async (req, res) => {
-  const topParticipants = await ParticipantRepository.fetchTopParticipants()
+app.get('/', cors(), async (req, res) => {
+  const topParticipants = await ParticipantRepository.fetchTopParticipants();
+
   return res.json(topParticipants);
 });
 

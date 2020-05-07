@@ -5,6 +5,7 @@ A simple quickstart in Node with Typescript
 ## Sumary
 
 - [How to Setup](#how-to-setup)
+- [Contributions](#contributions)
 - [Testing](#testing)
 - [Environment Variables](#environment-variables)
 - [Scripts](#scripts)
@@ -73,6 +74,44 @@ or with yarn
 
 ```
 yarn start
+```
+
+## Contributions
+
+Hey to contribute on this project, you will have some guidelines to follow.
+
+### Commits
+
+We have a standard for the commits messages, wich is this standard
+
+```
+type(scope?): subject  #scope is optional
+```
+
+**Type**
+
+Type indicates what you do on your changes, and can be:
+
+- build
+- ci
+- chore
+- docs
+- feat
+- fix
+- perf
+- refactor
+- revert
+- style
+- test
+
+you can see more about it [here](https://www.conventionalcommits.org/en/v1.0.0/)
+
+**Scope**
+
+Scope indicates what is your changes, for an example, lets use the commit of this changes on readme.
+
+```
+docs: added contributions guidelines
 ```
 
 ## Testing
