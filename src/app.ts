@@ -23,7 +23,7 @@ client.connect((err) => {
 
 ParticipantRepository.init(client)
 
-const pointsClock = new PointsClock( 1000)
+const pointsClock = new PointsClock(60*1000)
 pointsClock.run()
 
 app.get('/', cors(), async (req, res) => {
