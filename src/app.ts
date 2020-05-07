@@ -1,13 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import DatabaseClient from './database';
-
-import ChatterService from './services/ChatterService';
-
-import fetchTopParticipants from './utils/fetchTopParticipants';
-import incrementParticipantPoints from './utils/incrementParticipantPoints';
-
-import { Participant } from './types/participant';
+import PointsClock from './PointsClock';
+import ParticipantRepository from './repository/ParticipantRepository';
 
 const app = express();
 app.use(express.json());
@@ -26,34 +21,13 @@ client.connect((err) => {
   }
 });
 
-setInterval(async () => {
-  try {
-    const viewers = await ChatterService.getViewers();
-    const participantsCollection = client.getCollection<Participant>(
-      'participants',
-    );
+ParticipantRepository.init(client)
 
-    viewers.forEach(async (viewer) => {
-      const isCreated = await participantsCollection.findOne({
-        name: viewer,
-      });
-
-      if (!isCreated) {
-        await participantsCollection.insertOne({ name: viewer, points: 1 });
-      } else {
-        await incrementParticipantPoints(participantsCollection, viewer);
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
-}, 60 * 1000);
+const pointsClock = new PointsClock(60*1000)
+pointsClock.run()
 
 app.get('/', cors(), async (req, res) => {
-  const participantsCollection = client.getCollection<Participant>(
-    'participants',
-  );
-  const topParticipants = await fetchTopParticipants(participantsCollection);
+  const topParticipants = await ParticipantRepository.fetchTopParticipants();
 
   return res.json(topParticipants);
 });
