@@ -1,6 +1,8 @@
 # Overview
+This's the [Top Visitors Twitch Extension](https://github.com/lucasmontano/twitch-extension)'s EBS, an Extension that list the TOP 10 visitors in a Twitch Channel.
 
-A simple quickstart in Node with Typescript
+## What's an EBS
+The EBS is our optional backend service that supports the extension. To know more about EBS, please check the oficial Twitch documentation [here](https://dev.twitch.tv/docs/extensions/building/#creating-your-extension-backend-service-ebs).
 
 ## Sumary
 
