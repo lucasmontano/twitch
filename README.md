@@ -1,6 +1,9 @@
 # Overview
 This's the [Top Visitors Twitch Extension](https://github.com/lucasmontano/twitch-extension)'s EBS, an Extension that list the TOP 10 visitors in a Twitch Channel.
 
+## Motivation
+It's started during a streaming at [Lucas Montano Twitch Channel](https://www.twitch.tv/lucas_montano). The "Chat" has challenged Lucas Montano to work with a Stack he never worked with. The challange thread is called #umaStackQueNaoDomino
+
 ## What's an EBS
 The EBS is our optional backend service that supports the extension. To know more about EBS, please check the oficial Twitch documentation [here](https://dev.twitch.tv/docs/extensions/building/#creating-your-extension-backend-service-ebs).
 
