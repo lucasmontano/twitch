@@ -1,71 +1,61 @@
 import express from 'express';
-// eslint-disable-next-line no-unused-vars
-import mongodb, { Collection } from 'mongodb';
+import cors from 'cors';
+import DatabaseClient from './database';
+
 import ChatterService from './services/ChatterService';
+
+import fetchTopParticipants from './utils/fetchTopParticipants';
+import incrementParticipantPoints from './utils/incrementParticipantPoints';
+
+import { Participant } from './types/participant';
 
 const app = express();
 app.use(express.json());
 
-let topParticipants = [];
-
-const { MongoClient } = mongodb;
-const client = new MongoClient(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+const client = new DatabaseClient({
+  url: process.env.MONGODB_URI,
+  database: process.env.DATABASE_NAME,
 });
-
-function fetchTopParticipants(participantsCollection: Collection): void {
-  return participantsCollection
-    .find() // TODO: apply projection to filter out _id
-    .sort({ points: -1 })
-    .limit(10)
-    .toArray((err, document) => {
-      if (err) throw err;
-      topParticipants = document.map((participant) => ({
-        name: participant.name,
-        points: participant.points,
-      }));
-    });
-}
-
-function incrementParticipantPoints(
-  participantsCollection: Collection,
-  viewer: string,
-): Promise<void> {
-  return participantsCollection
-    .updateOne({ name: viewer }, { $inc: { points: 1 } })
-    .then((result) => {
-      if (!result.modifiedCount) {
-        participantsCollection.insertOne({
-          name: viewer,
-          points: 1,
-        });
-      }
-    })
-    .catch((err) => console.error(`Failed to add review: ${err}`));
-}
 
 client.connect((err) => {
-  if (err) throw err;
-
-  const db = client.db(process.env.DATABASE_NAME);
-  const participantsCollection = db.collection('participants');
-  fetchTopParticipants(participantsCollection);
-  setInterval(async () => {
-    try {
-      const viewers = await ChatterService.getViewers();
-
-      viewers.forEach(async (viewer) => {
-        await incrementParticipantPoints(participantsCollection, viewer);
-      });
-
-      fetchTopParticipants(participantsCollection);
-    } catch (error) {
-      console.log(error);
-    }
-  }, 60 * 1000);
+  if (err) {
+    console.log(`> Cannot connect to database: ${err}`);
+    throw err;
+  } else {
+    console.log('> Database connected');
+  }
 });
 
-app.get('/', (req, res) => res.json(topParticipants));
+setInterval(async () => {
+  try {
+    const viewers = await ChatterService.getViewers();
+    const participantsCollection = client.getCollection<Participant>(
+      'participants',
+    );
+
+    viewers.forEach(async (viewer) => {
+      const isCreated = await participantsCollection.findOne({
+        name: viewer,
+      });
+
+      if (!isCreated) {
+        await participantsCollection.insertOne({ name: viewer, points: 1 });
+      } else {
+        await incrementParticipantPoints(participantsCollection, viewer);
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}, 60 * 1000);
+
+app.get('/', cors(), async (req, res) => {
+  const participantsCollection = client.getCollection<Participant>(
+    'participants',
+  );
+  const topParticipants = await fetchTopParticipants(participantsCollection);
+
+  return res.json(topParticipants);
+});
 
 export default app;

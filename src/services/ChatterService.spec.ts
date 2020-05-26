@@ -6,6 +6,7 @@ describe('Testing Chatter Service', () => {
       const viewers = await ChatterService.getViewers();
 
       expect(viewers.length).toBeGreaterThanOrEqual(0);
+      expect(ChatterService.bots.size).toBeGreaterThanOrEqual(0);
     });
   });
 });

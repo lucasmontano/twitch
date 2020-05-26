@@ -7,7 +7,9 @@
   "extends": [
     "airbnb-base",
     "prettier/@typescript-eslint",
-    "eslint:recommended"
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
   ],
   "globals": {
     "Atomics": "readonly",
@@ -27,16 +29,18 @@
         "ts": "never",
         "js": "never"
       }
-    ]
+    ],
+    "no-unused-vars": "warn",
+    "class-methods-use-this": "warn"
   },
   "settings": {
     "import/parsers": {
-      "@typescript-eslint/parser": [".ts", ".tsx"]
+      "@typescript-eslint/parser": [".ts", ".tsx", ".d.ts"]
     },
-    "import/extensions": [".js", ".ts"],
+    "import/extensions": [".js", ".ts", ".d.ts"],
     "import/resolver": {
       "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        "extensions": [".js", ".jsx", ".ts", ".tsx", ".d.ts"]
       }
     }
   }
