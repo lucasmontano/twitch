@@ -55,6 +55,32 @@ or with yarn
 yarn dev
 ```
 
+**With Docker**
+
+Run the following scripts to expose shell functions and start up docker containers on *UNIX based OS*
+
+```
+source dev.sh
+```
+
+Create `.env` file and install npm packages
+
+```
+setup_dev_environment
+```
+
+Up containers
+
+```
+dkup
+```
+
+Run commands inside container
+
+```
+dk echo Lucas Montano do canal Lucas Montano
+```
+
 **Production Mode**
 
 First generate a build with the following command
@@ -151,6 +177,7 @@ yarn test
 - `build`: Compile the Typescript using the **tsc**
 - `start`: Start the previous compiled aplicattion by the **build** script
 - `test`: Run all tests
+- `lint`: Run ESLint
 
 ## Code Linters
 

@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  db:
+    image: mongo:4.2
+    volumes:
+      - $PWD/docker/volumes/db:/data/db
+      - $PWD/docker/scripts:/docker-entrypoint-initdb.d
+    networks:
+      - development_network
+    env_file: .env
+
+  app:
+    image: node:12.16.1-stretch
+    working_dir: /app
+    env_file: .env
+    command: 'yarn dev'
+    volumes:
+      - $PWD:/app
+    ports:
+      - ${PORT}:${PORT}
+    networks:
+      - development_network
+    depends_on:
+      - db
+
+networks:
+  development_network:
+    driver: bridge
